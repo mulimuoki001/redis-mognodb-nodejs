@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/bookstore
+    depends_on:
+      - mongodb
+    restart: always
+
+volumes:
+  mongodb-data: {}
